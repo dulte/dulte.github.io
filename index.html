@@ -89,7 +89,7 @@
                 cipher = checkEncoding(cipher);
                 
            
-                result = breakSingleCharKey(cipher,useNbKeys=1);
+                result = breakSingleCharKey(cipher);
 
                 var solution = result[0];
                 var score = result[1];
@@ -133,7 +133,7 @@
 
                 
                 
-                var result = breakRepeatingKey(cipher);
+                var result = breakRepeatingKey(cipher,useNbKeys=1);
                 
                 for(var i=0; i<result.length; i++){
                     var current_result = result[i];
