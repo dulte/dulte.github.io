@@ -91,8 +91,11 @@ function english_score(str){
     str = str.toLowerCase();
     var sum = 0;
     for(i=0; i<str.length; i++){
-        if(str.charAt(i) in character_frequencies)
-        sum += character_frequencies[str.charAt(i)];
+        if(str.charAt(i) in character_frequencies){
+            sum += character_frequencies[str.charAt(i)];
+        }else{
+            sum += -1;
+        }
     }
     
     return sum;
@@ -155,6 +158,79 @@ function hammingDistance(str1, str2){
 
     return result;
 
+}
+
+
+function getKeyLength(str){
+    var max_len = str.length/4.0;
+    if(max_len > 40) max_len = 40;
+
+    var lengths = {};
+    var scores = [];
+
+    for(i=2; i<max_len; i++){
+        var block1 = str.slice(0,i);
+        var block2 = str.slice(i,2*i);  
+        var block3 = str.slice(2*i,3*i);
+        var block4 = str.slice(3*i,4*i);
+
+        var score1 = hammingDistance(block1, block2)/i;
+        var score2 = hammingDistance(block1, block3)/i;
+        var score3 = hammingDistance(block1, block4)/i;
+        var score4 = hammingDistance(block2, block3)/i;
+        var score5 = hammingDistance(block2, block4)/i;
+        var score6 = hammingDistance(block3, block4)/i;
+
+        var score = (score1+score2+score3+score4+score5+score6)/6.0;
+        scores[i-2] = score;
+        lengths[score] = i; 
+    }
+
+    score = scores.sort(function(a, b){  
+        return a-b;
+      });
+
+    var results = [];
+    for(i=0; i<max_len-2;i++){
+        results[i] = lengths[scores[i]];
+    }
+
+    return results;  
+}
+
+function breakRepeatingKeyWithSize(str, size){
+    var key = "";
+
+
+    var transposedBlocks = [];
+    for(var i=0;i<size; i++){
+        transposedBlocks[i] = "";
+    }
+
+    for(var i=0;i<str.length; i++){
+        transposedBlocks[i % size] += str.charAt(i); 
+    }
+
+    for(var i=0;i<size; i++){
+        var current_str = transposedBlocks[i];
+        var current_result = breakSingleCharKey(current_str);
+        key += current_result[2];
+    }
+
+    return key;
+    
+}
+
+
+function breakRepeatingKey(str,useNbKeys=2){
+    var best_sizes = getKeyLength(str).slice(0,useNbKeys);
+    
+    var results = [];
+    for(var i=0; i<best_sizes.length; i++){
+        results[i] = breakRepeatingKeyWithSize(str, best_sizes[i]);
+    }
+
+    return results;
 }
 
 

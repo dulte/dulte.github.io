@@ -89,7 +89,7 @@
                 cipher = checkEncoding(cipher);
                 
            
-                result = breakSingleCharKey(cipher);
+                result = breakSingleCharKey(cipher,useNbKeys=1);
 
                 var solution = result[0];
                 var score = result[1];
@@ -127,39 +127,26 @@
 
                 cipher = checkEncoding(cipher);
 
-
-                alert(hammingDistance("this is a test", "wokka wokka!!!"));
                 
-                /*
-                result = breakSingleCharKey(cipher);
-
-                var solution = result[0];
-                var score = result[1];
-                var key = result[2];
-
+                
                 var print_string = ""
 
-                print_string += "Key: " + key + " Score: " + score + " Answer: " + solution + "\n";
-
                 
-                let nb_solution = result[0].length;
+                
+                var result = breakRepeatingKey(cipher);
+                
+                for(var i=0; i<result.length; i++){
+                    var current_result = result[i];
+                    
 
-                for(var i = 0; i< nb_solution;i++){
-                    var solution = result[0][i];
-                    var score = result[1][i];
-                    var key = result[2][i];
-                    
-                    
-                    solution = checkDecoding(solution);
-                    key = checkDecoding(key);
-                    print_string += "Key: " + key + " Score: " + score + " Answer: " + solution + "\n";
-                    print_string += "---------------------- \n"
+                    print_string += "Key: " + checkDecoding(current_result) + "\n"  + " Answer: " + checkDecoding(xor(cipher, current_result)) + "\n";
+                    print_string += "------------------------ \n"
                 }
-                */
+
                 
                 
 
-                //document.getElementById('output').textContent = print_string;
+                document.getElementById('output').textContent = print_string;
                 
             }
 
