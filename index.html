@@ -1,4 +1,207 @@
-hello
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8"/>
+        <link rel="stylesheet" href="style.css"/>
+        <title>Xor Breaker</title>
+        <script src="xor.js"></script>
 
-<!--<meta http-equiv="Refresh" content="0; url=https://www.dulte.github.io/xor.html" />-->
+        
 
+
+
+    </head>
+    <body>
+    
+        <div class="container">
+            <h2> XOR Breaker</h2>
+            <div class=input>
+                <textarea rows="5" cols="60" id="input">
+                    
+                </textarea> 
+                
+            </div>
+            <div class="setting">
+                    <label>Key:</label>
+                    <input id="key" name="key" type="text"/>
+            </div>  
+
+            <div id="hex_base64_ascii" class="setting">
+                <label>Encoding</label>
+                <input type="radio" name="encoding" value="ascii" id="encoding_radio" checked> Ascii
+                <input type="radio" name="encoding" value="hex" id="encoding_radio" > Hex
+                <input type="radio" name="encoding" value="base64" id="encoding_radio" > Base64
+            </div>  
+
+            
+    
+
+            <div class="output-container">
+                
+                <textarea rows="5" cols="60" id="output">   
+                </textarea> 
+            </div>
+
+            <div id="hex_base64_ascii" class="setting">
+                    <label>Decoding</label>
+                    <input type="radio" name="decoding" value="ascii" id="decoding_radio"  checked> Ascii
+                    <input type="radio" name="decoding" value="hex" id="decoding_radio"> Hex
+                    <input type="radio" name="decoding" value="base64" id="decoding_radio"> Base64
+            </div>  
+            <div class="btn-container">
+                <button type="button" class="btn" id="encrypt">Encrypt or Decrypt</button>
+                <button type="button" class="btn" id="solve_single">Solve Single Character</button>
+                <button type="button" class="btn" id="solve_repeating">Solve Repeating Key</button>
+            </div>
+
+
+        </div>
+    
+    </body>
+
+
+
+    <script>
+            document.getElementById('encrypt').onclick = function(){
+                var cipher = document.getElementById('input').value.trim();
+                var key = document.getElementById('key').value;
+
+                cipher = checkEncoding(cipher);
+                key = checkEncoding(key);
+
+           
+                result = xor(cipher, key);
+               
+                
+                result = checkDecoding(result);
+                
+
+                document.getElementById('output').textContent = result;
+            }
+
+
+
+
+            document.getElementById('solve_single').onclick = function(){
+                var cipher = document.getElementById('input').value.trim();
+                
+
+                cipher = checkEncoding(cipher);
+                
+           
+                result = breakSingleCharKey(cipher);
+
+                var solution = result[0];
+                var score = result[1];
+                var key = result[2];
+
+                var print_string = ""
+
+                print_string += "Key: " + key + " Score: " + score + " Answer: " + solution + "\n";
+
+                /*
+                let nb_solution = result[0].length;
+
+                for(var i = 0; i< nb_solution;i++){
+                    var solution = result[0][i];
+                    var score = result[1][i];
+                    var key = result[2][i];
+                    
+                    
+                    solution = checkDecoding(solution);
+                    key = checkDecoding(key);
+                    print_string += "Key: " + key + " Score: " + score + " Answer: " + solution + "\n";
+                    print_string += "---------------------- \n"
+                }
+                */
+                
+                
+
+                document.getElementById('output').textContent = print_string;
+                
+            }
+
+            document.getElementById('solve_repeating').onclick = function(){
+                var cipher = document.getElementById('input').value.trim();
+                
+
+                cipher = checkEncoding(cipher);
+
+
+                alert(hammingDistance("this is a test", "wokka wokka!!!"));
+                
+                /*
+                result = breakSingleCharKey(cipher);
+
+                var solution = result[0];
+                var score = result[1];
+                var key = result[2];
+
+                var print_string = ""
+
+                print_string += "Key: " + key + " Score: " + score + " Answer: " + solution + "\n";
+
+                
+                let nb_solution = result[0].length;
+
+                for(var i = 0; i< nb_solution;i++){
+                    var solution = result[0][i];
+                    var score = result[1][i];
+                    var key = result[2][i];
+                    
+                    
+                    solution = checkDecoding(solution);
+                    key = checkDecoding(key);
+                    print_string += "Key: " + key + " Score: " + score + " Answer: " + solution + "\n";
+                    print_string += "---------------------- \n"
+                }
+                */
+                
+                
+
+                //document.getElementById('output').textContent = print_string;
+                
+            }
+
+            
+
+
+
+
+            function checkEncoding(str){
+                var elements = document.getElementsByName("encoding");
+                var encoding;
+                for(i=0; i<elements.length; i++){
+                    if(elements[i].checked)
+                    encoding = elements[i].value
+                }
+                
+                if(encoding == "ascii"){
+                    return str;
+                }else if(encoding == "hex"){
+                    return hexToAscii(str);
+                }else{
+                    return base64ToAscii(str);
+                }
+            }
+
+            function checkDecoding(str){
+                var elements = document.getElementsByName("decoding");
+                var decoding;
+                for(i=0; i<elements.length; i++){
+                    if(elements[i].checked)
+                    decoding = elements[i].value
+                }
+                if(decoding == "ascii"){
+                    return str;
+                }else if(decoding == "hex"){
+                    return asciiToHex(str);
+                }else{
+                    return asciiToBase64(str);
+                }
+            }
+        
+        
+        </script>
+
+</html>
