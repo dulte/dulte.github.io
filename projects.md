@@ -12,7 +12,7 @@ list, please see my [github](https://github.com/dulte).
 This is a small XOR encryption/decryption/breaker tool made by following
 [CryptoPals](https://cryptopals.com/). It is meant as learning, and as a tool, for Capture the Flag (CTF).
 
-## [ETConverter Documentation](../)
+## [ETConverter Documentation](../ETConverter/index.html)
 This leads to the documentation to a converter tool used in my Master Thesis. The tool converts numerical relativity data simlated in [Einstein Toolkit](https://einsteintoolkit.org/) to a the spectral representation of [LORENE](https://lorene.obspm.fr/) and used to raytrace numerical space times in [Gyoto](https://gyoto.obspm.fr/). 
 
 ## [HexWay](../hexway/hexway.html)

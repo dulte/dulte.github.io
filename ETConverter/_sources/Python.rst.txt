@@ -1,0 +1,38 @@
+Python package
+==============
+
+Submodules
+----------
+
+Python.ETInterpolater module
+----------------------------
+
+.. automodule:: Python.ETInterpolater
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+Python.h5read module
+--------------------
+
+.. automodule:: Python.h5read
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+Python.plot\_from\_file\_reader module
+--------------------------------------
+
+.. automodule:: Python.plot_from_file_reader
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: Python
+    :members:
+    :undoc-members:
+    :show-inheritance:

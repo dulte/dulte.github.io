@@ -1,0 +1,735 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ETInterpolater module &mdash; Einstein Toolkit Converter  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="ETInterpolater" href="modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Einstein Toolkit Converter
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">ETInterpolater</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">ETInterpolater module</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Einstein Toolkit Converter</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="modules.html">ETInterpolater</a> &raquo;</li>
+        
+      <li>ETInterpolater module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/ETInterpolater.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-ETInterpolater">
+<span id="etinterpolater-module"></span><h1>ETInterpolater module<a class="headerlink" href="#module-ETInterpolater" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="ETInterpolater.ETInterpolater">
+<em class="property">class </em><code class="descclassname">ETInterpolater.</code><code class="descname">ETInterpolater</code><span class="sig-paren">(</span><em>dir</em>, <em>nb_bodies=2</em><span class="sig-paren">)</span><a class="headerlink" href="#ETInterpolater.ETInterpolater" title="Permalink to this definition">¶</a></dt>
+<dd><p>A class used to read the 3+1 quantities simulated with Einstein Toolkit,
+interpolate them, then use C code build around LORENE to find the collocation
+points needed to do a spectral transformation. It can then find the function
+vaules at these points, and call the C code to do the spectral transformation.</p>
+<p>Most user will only need to use make_geometry/make_positive_geometry and analyse_bbh.
+A typical run example will be</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">folder</span> <span class="o">=</span> <span class="s2">&quot;/some_location/simulations/bbh_3D&quot;</span>
+<span class="n">inter</span> <span class="o">=</span> <span class="n">ETInterpolater</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="n">g</span> <span class="o">=</span> <span class="n">inter</span><span class="o">.</span><span class="n">make_positive_geometry</span><span class="p">([</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">],</span> <span class="mi">200</span><span class="p">)</span>
+<span class="n">it</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">256</span><span class="p">]</span> <span class="c1">#And more</span>
+
+<span class="n">inter</span><span class="o">.</span><span class="n">analyse_bbh</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">quantity</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">it</span><span class="p">,</span> <span class="n">test</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="ETInterpolater.ETInterpolater.LORENE_read">
+<code class="descname">LORENE_read</code><span class="sig-paren">(</span><em>filename, origin=[0, 0, 0], body=1, it=0</em><span class="sig-paren">)</span><a class="headerlink" href="#ETInterpolater.ETInterpolater.LORENE_read" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function responsible of communicating with the C code, which will read
+the flatten array, make the spectral transformation and save the
+Gyoto files.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>filename</strong> (<em>str</em>) – Name of file users used to save flatten list (not used any longer)</li>
+<li><strong>origin</strong> (<em>list</em><em>, </em><em>optional</em>) – Origin of the spectral grid LORENE will make (default is [0,0,0])</li>
+<li><strong>body</strong> (<em>int</em><em>, </em><em>optional</em>) – Which body this is (default is 1)</li>
+<li><strong>it</strong> (<em>int</em><em>, </em><em>optional</em>) – The iteration/timestep (default is 0)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-exc docutils literal notranslate"><span class="pre">IOError</span></code> – If the function fails to contact the C code, or if the C code crashes.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>The C code is changed to uses generic insted of a user given filename.
+This means that the filename is irrelevant. This parameter will be
+removed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ETInterpolater.ETInterpolater.analyse_bbh">
+<code class="descname">analyse_bbh</code><span class="sig-paren">(</span><em>geometry</em>, <em>quantity</em>, <em>iterations</em>, <em>test=False</em>, <em>split=True</em>, <em>scaling_factor=4.0</em><span class="sig-paren">)</span><a class="headerlink" href="#ETInterpolater.ETInterpolater.analyse_bbh" title="Permalink to this definition">¶</a></dt>
+<dd><p>The main function of the code. This will read and interpolate all quantities,
+get the collocation points from the C code, clean it up,
+find the function values at these points, apply the splitting function
+and make the C code do the spectral transfomation.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>geometry</strong> (<em>postcactus.grid_data.RegGeom</em>) – The geometry at which the data should be read and interpolated</li>
+<li><strong>quantiy</strong> (<em>list</em>) – A list of quantities which will be processed (redundant as of now)</li>
+<li><strong>iterations</strong> (<em>list</em>) – A list of iteration the user want to process</li>
+<li><strong>test</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to make a test plot or not (default is False)</li>
+<li><strong>split</strong> (<em>bool optional</em>) – Whether or not to apply the splitting function (default is True)</li>
+<li><strong>scaling_factor</strong> (<em>float</em><em>, </em><em>optional</em>) – The scaling factor used to determine the distance at which
+the splitting factor will be used (default is 4.0)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li>The code will now go through all quantities, so the quantity parameter is redundant and will be removed.</li>
+<li>This code is as of now only applicable to equal-massed BHs. This will be change, and then there will be two scaling factors.</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="ETInterpolater.ETInterpolater.bound_coord">
+<code class="descname">bound_coord</code><span class="sig-paren">(</span><em>coord</em>, <em>tp</em><span class="sig-paren">)</span><a class="headerlink" href="#ETInterpolater.ETInterpolater.bound_coord" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bounds the coordinates, so that other functions don’t try to get
+function values outside of defined area. It also handles infinite
+bounderies which is sometime needed. It will also desymmeterize
+the coordinate (see the desymmeterize_coord function)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>coord</strong> (<em>float</em>) – The value of the coordinate</li>
+<li><strong>tp</strong> (<em>str</em>) – Which axis: x, y or z</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code> – If tp is not x, y or z</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The bounded and desymmeterized coodinate value</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">float</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>The infinite bounds have to be handled better. It will
+now use the outer coordinate - 5, which is garantied
+to lead to discontinuities…</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ETInterpolater.ETInterpolater.clean_coll_points">
+<code class="descname">clean_coll_points</code><span class="sig-paren">(</span><em>s</em><span class="sig-paren">)</span><a class="headerlink" href="#ETInterpolater.ETInterpolater.clean_coll_points" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes the string containing the coll points for one coord (x,y or z),
+and returns a list with a dict for each domain.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>s</strong> (<em>str</em>) – The string containing the collocation points for one coord (x,y or z)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Returns a list of dicts for the one coordinate with the collocation points</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">list</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ETInterpolater.ETInterpolater.clean_coll_points_xyz">
+<code class="descname">clean_coll_points_xyz</code><span class="sig-paren">(</span><em>s</em><span class="sig-paren">)</span><a class="headerlink" href="#ETInterpolater.ETInterpolater.clean_coll_points_xyz" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes a string containing the output of the LORENE code and returns
+three dicts (x,y,z) giving the coord position of each coll point.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>s</strong> (<em>str</em>) – The string given by C code, containg the whole output as one string</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Returns a list of dicts for x, y and z with the collocation points.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">list, list, list</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>Very bad practis is used in this function, so might need to be rewritten.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ETInterpolater.ETInterpolater.desymmetrize_coord">
+<code class="descname">desymmetrize_coord</code><span class="sig-paren">(</span><em>coord</em><span class="sig-paren">)</span><a class="headerlink" href="#ETInterpolater.ETInterpolater.desymmetrize_coord" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function for taking care of the symmetries used in Einstein Toolkit.
+This is a preliminary function, that assumes that Einstein Toolkit
+uses symmetry in both x, y and z.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>coord</strong> (<em>float</em>) – The value of the coordinate (point) that needs to be desymmeterized</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Desymmeterized coordinate point.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">float</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>This is a temperary function. It assumes total symmetery, and therefore
+only uses a abs() to desymmeterize. Parameters to choose symmeterization
+axis will be added later.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ETInterpolater.ETInterpolater.flatten_dict">
+<code class="descname">flatten_dict</code><span class="sig-paren">(</span><em>d</em><span class="sig-paren">)</span><a class="headerlink" href="#ETInterpolater.ETInterpolater.flatten_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes a dict formatted as the output from LORENE and flattens it.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>d</strong> (<em>dict</em>) – A dict with the values at the collocation points. The dict
+is formatted as the output from LORENE.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A flatted list with the values from the dict</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">list</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>To get back the value from the flatted list one can use
+<code class="docutils literal notranslate"><span class="pre">`</span> <span class="pre">d[l][k][j][i]</span> <span class="pre">=</span>&#160; <span class="pre">(sum_{0</span> <span class="pre">&lt;=</span> <span class="pre">m</span> <span class="pre">&lt;</span> <span class="pre">l}</span> <span class="pre">nr[m]*nt[m]*np[m])</span> <span class="pre">+</span> <span class="pre">k*nt[l]*nr[l]</span> <span class="pre">+</span> <span class="pre">j*nr[l]</span> <span class="pre">+</span> <span class="pre">i`</span></code></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ETInterpolater.ETInterpolater.get_coll_points">
+<code class="descname">get_coll_points</code><span class="sig-paren">(</span><em>origin=[0, 0, 0], body=1, it=0</em><span class="sig-paren">)</span><a class="headerlink" href="#ETInterpolater.ETInterpolater.get_coll_points" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function responsible of communicating with the C code to get the
+collocation points, then make the output of the C code to three
+dicts (one for each axis).</p>
+<p>The structure of the dict (and LORENE output) is:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">dict[l]</span></code> is the l’th domain</li>
+<li><code class="docutils literal notranslate"><span class="pre">dict[l][k]</span></code> is the k’th phi point(s)</li>
+<li><code class="docutils literal notranslate"><span class="pre">dict[l][k][j]</span></code> is the k’th theta point(s)</li>
+<li><code class="docutils literal notranslate"><span class="pre">dict[l][k][j][i]</span></code> is the i’th r point</li>
+</ul>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>origin</strong> (<em>list</em><em>, </em><em>optional</em>) – Origin of the spectral grid LORENE will make (default is [0,0,0])</li>
+<li><strong>body</strong> (<em>int</em><em>, </em><em>optional</em>) – Which body this is (default is 1)</li>
+<li><strong>it</strong> (<em>int</em><em>, </em><em>optional</em>) – The iteration/timestep (default is 0)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Returns a list of dicts for x, y and z with the collocation points.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">list, list, list</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>This will call all the cleanup function, so this is the only function
+the user need to use.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ETInterpolater.ETInterpolater.get_domain_dict_from_string">
+<code class="descname">get_domain_dict_from_string</code><span class="sig-paren">(</span><em>domain_string</em><span class="sig-paren">)</span><a class="headerlink" href="#ETInterpolater.ETInterpolater.get_domain_dict_from_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes a string for one domain of one coord
+and returns the dict for that domain.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>domain_string</strong> (<em>str</em>) – A string containg the collocation points for one domain and one coord,
+formatted as the output from LORENE</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Dict with the collocation points for that domain.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">dict</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ETInterpolater.ETInterpolater.get_values_at_coll_points">
+<code class="descname">get_values_at_coll_points</code><span class="sig-paren">(</span><em>interpolated_quantity, smooth=True, bh_pos=[0, 0, 0], bh_rad=0, bh_pos2=[0, 0, 0], bh_rad2=0, scaling_factor=4.0, test=False</em><span class="sig-paren">)</span><a class="headerlink" href="#ETInterpolater.ETInterpolater.get_values_at_coll_points" title="Permalink to this definition">¶</a></dt>
+<dd><p>One of the main functions of the module. This function takes in a interpolation
+function of a quantity. It will then use LORENE to find the collocation points.
+It will then go though all the collocation points, find the fuction value
+at that point, then use the splitting function on the value (given smooth is true)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>interpolated_quantity</strong> (<em>postcactus.grid_data.grid</em>) – Interpolation function for the given quantity</li>
+<li><strong>smooth</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether or not the splitting function will be applied (default is True)</li>
+<li><strong>bh_pos</strong> (<em>list</em><em>, </em><em>optional</em>) – The position of the first BH (default is [0,0,0])</li>
+<li><strong>bh_rad</strong> (<em>float</em><em>, </em><em>optional</em>) – The radius of the first BH (dafault is 0)</li>
+<li><strong>bh_pos2</strong> (<em>list</em><em>, </em><em>optional</em>) – The position of the second BH (default is [0,0,0])</li>
+<li><strong>bh_rad2</strong> (<em>float</em><em>, </em><em>optional</em>) – The radius of the second BH (dafault is 0)</li>
+<li><strong>scaling_factor</strong> (<em>float</em><em>, </em><em>optinal</em>) – The scaling factor used in the splitting funciton (default is 4.0)</li>
+<li><strong>test</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True this will make a test plot</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><ul class="simple">
+<li><em>Dict</em> – The values as a dict with the same structure as the collocation points</li>
+<li><em>List</em> – A flat list of the calculated values</li>
+</ul>
+</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ETInterpolater.ETInterpolater.make_geometry">
+<code class="descname">make_geometry</code><span class="sig-paren">(</span><em>corner</em>, <em>n_pts</em><span class="sig-paren">)</span><a class="headerlink" href="#ETInterpolater.ETInterpolater.make_geometry" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make a geometry needed to read Einstein Toolkit quantities.
+Given the bottom left corner, this will return a geometry using
+a second corner which is a mirror of the given corner, mirrored
+around the origin.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>corner</strong> (<em>list</em>) – Bottom left corner of the geomtery</li>
+<li><strong>n_pts</strong> (<em>int</em>) – Number of points in the geomtery</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueErrror</span></code> – If the corner is not 2 or 3 dimensional</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The geometry</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">postcactus.grid_data.RegGeom</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ETInterpolater.ETInterpolater.make_positive_geometry">
+<code class="descname">make_positive_geometry</code><span class="sig-paren">(</span><em>corner</em>, <em>n_pts</em><span class="sig-paren">)</span><a class="headerlink" href="#ETInterpolater.ETInterpolater.make_positive_geometry" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make a geometry needed to read Einstein Toolkit quantities.
+This will make a geometry with one corner at the origin, and
+the other at the given corner. This is for cases where the
+Einstein Toolkit simulation is done with symmetry in xyz!</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>corner</strong> (<em>list</em>) – Bottom left corner of the geomtery</li>
+<li><strong>n_pts</strong> (<em>int</em>) – Number of points in the geomtery</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueErrror</span></code> – If the corner is not 2 or 3 dimensional</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The geometry</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">postcactus.grid_data.RegGeom</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ETInterpolater.ETInterpolater.make_test_bbh_plot">
+<code class="descname">make_test_bbh_plot</code><span class="sig-paren">(</span><em>quantity</em>, <em>p1</em>, <em>p2</em>, <em>r1</em>, <em>r2</em><span class="sig-paren">)</span><a class="headerlink" href="#ETInterpolater.ETInterpolater.make_test_bbh_plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>A simple function to test if the module is able to read and interpolate
+a given quantity with two bodies. The code wil apply the splitt function.
+The result of the xy plane is then plotted as a pcolormesh and a contour plot.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>quantity</strong> (<em>str</em>) – The quantity the user wants to test plot.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ETInterpolater.ETInterpolater.make_test_plot">
+<code class="descname">make_test_plot</code><span class="sig-paren">(</span><em>quantity</em><span class="sig-paren">)</span><a class="headerlink" href="#ETInterpolater.ETInterpolater.make_test_plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>A simple function to test if the module is able to read and interpolate
+a given quantity. The result of the xy plane is then plotted as a
+pcolormesh.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>quantity</strong> (<em>str</em>) – The quantity the user wants to test plot.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ETInterpolater.ETInterpolater.read_ET_quantity">
+<code class="descname">read_ET_quantity</code><span class="sig-paren">(</span><em>quantity</em>, <em>geometry</em>, <em>iteration</em>, <em>dimentions=3</em>, <em>order=4</em><span class="sig-paren">)</span><a class="headerlink" href="#ETInterpolater.ETInterpolater.read_ET_quantity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads a Einstein Toolkit quantity from HDF5 files for a given iteration
+and geometery. If the dimensions is 2 the xy plane is returned, if
+3 xyz is return, else a error is raised.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>quantity</strong> (<em>str</em>) – First part of the name of the HDF5 file containg that data</li>
+<li><strong>geometry</strong> (<em>postcactus.grid_data.RegGeom</em>) – The geometry at which the data should be read and interpolated</li>
+<li><strong>iteration</strong> (<em>int</em>) – The timestep at which the data should be read</li>
+<li><strong>dimentions</strong> (<em>int</em><em>, </em><em>optional</em>) – The dimension of which the data should be read (default is 3)</li>
+<li><strong>order</strong> (<em>int</em><em>, </em><em>optional</em>) – The order of the interpolation (default is 4)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><ul class="first simple">
+<li><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code> – If the dimensions are not 2 or 3</li>
+<li><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code> – If the quantity could not be read/wrong name of quantity</li>
+</ul>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Function values of read data, with in the given geometry</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">postcactus.grid_data.grid</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ETInterpolater.ETInterpolater.read_bbh_diag">
+<code class="descname">read_bbh_diag</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ETInterpolater.ETInterpolater.read_bbh_diag" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads the iterations saved, the positions and radii of the black holes</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">First all the iterations save are returns. Secondly an array with the posision
+of the two BHs over time. Lastly the an array with the radii of the BHs
+over time.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">np.array, np.array([[list, list, list], [list, list, list]]), np.array([list, list])</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ETInterpolater.ETInterpolater.split_function">
+<code class="descname">split_function</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>z</em>, <em>posBH1</em>, <em>posBH2</em>, <em>R1</em>, <em>R2</em><span class="sig-paren">)</span><a class="headerlink" href="#ETInterpolater.ETInterpolater.split_function" title="Permalink to this definition">¶</a></dt>
+<dd><p>C^2 function <cite>f</cite> that takes the value 1 in the vicinity of BH1,
+0 in the vicinity of BH2 and 1/2 far from BH1 and BH2</p>
+<p>INPUT:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">x</span></code>, <code class="docutils literal notranslate"><span class="pre">y</span></code>, <code class="docutils literal notranslate"><span class="pre">z</span></code> – Cartesian coordinates <cite>(x,y,z)</cite> of the point
+where the function <cite>f</cite> is to be evaluated</li>
+<li><code class="docutils literal notranslate"><span class="pre">posBH1</span></code> – 3-tuple of Cartesian coordinates specifying the
+location of BH1</li>
+<li><code class="docutils literal notranslate"><span class="pre">posBH2</span></code> – 3-tuple of Cartesian coordinates specifying the
+location of BH2</li>
+<li><code class="docutils literal notranslate"><span class="pre">R1</span></code> – radius of ball around BH1 where <cite>f(x,y,z) = 1</cite></li>
+<li><code class="docutils literal notranslate"><span class="pre">R2</span></code> – radius of ball around BH2 where <cite>f(x,y,z) = 0</cite></li>
+</ul>
+<p>OUTPUT:</p>
+<ul class="simple">
+<li>value of <cite>f(x,y,z)</cite></li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="ETInterpolater.ETInterpolater.super_gaussian">
+<code class="descname">super_gaussian</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>z</em>, <em>bh_pos</em>, <em>rad</em>, <em>I=1</em>, <em>n=10</em><span class="sig-paren">)</span><a class="headerlink" href="#ETInterpolater.ETInterpolater.super_gaussian" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function used to suppress regions of the function grid.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>x</strong> (<em>float</em>) – The x coordinate</li>
+<li><strong>y</strong> (<em>float</em>) – The y coordinate</li>
+<li><strong>z</strong> (<em>float</em>) – The z coordinate</li>
+<li><strong>bh_pos</strong> (<em>list</em>) – The position of the BH the user wants to suppress</li>
+<li><strong>rad</strong> (<em>float</em>) – The radius of the suppression</li>
+<li><strong>I</strong> (<em>float</em><em>, </em><em>optional</em>) – The intesity of the suppression, so the defaul of the function far away
+from the BH (default is 1)</li>
+<li><strong>n</strong> (<em>int</em>) – How fast the suppression is (default is 10)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The suppression factor</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">float</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ETInterpolater.ETInterpolater.write_flatten_values_to_file">
+<code class="descname">write_flatten_values_to_file</code><span class="sig-paren">(</span><em>values</em>, <em>it</em>, <em>body</em>, <em>file</em><span class="sig-paren">)</span><a class="headerlink" href="#ETInterpolater.ETInterpolater.write_flatten_values_to_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Writes flatten list to file. Adds which body the user is saving,
+the total number of bodies and the iteration/timestep to the
+list before saving</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>values</strong> (<em>list</em>) – Flatten list with the same formatting as the output of LORENE</li>
+<li><strong>it</strong> (<em>int</em>) – The iteration/timestep</li>
+<li><strong>body</strong> (<em>int</em>) – Which body this is.</li>
+<li><strong>file</strong> (<em>str</em>) – Filename of the file the user wants to save to</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ETInterpolater.ETInterpolater.write_values_to_file">
+<code class="descname">write_values_to_file</code><span class="sig-paren">(</span><em>values</em>, <em>file</em><span class="sig-paren">)</span><a class="headerlink" href="#ETInterpolater.ETInterpolater.write_values_to_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Writes dict to file</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>values</strong> (<em>dict</em>) – Dict with the same formatting as the output of LORENE</li>
+<li><strong>file</strong> (<em>str</em>) – Filename of the file the user wants to save to</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>Outdated and should not be used anymore</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="modules.html" class="btn btn-neutral float-left" title="ETInterpolater" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Daniel Heinesen
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
