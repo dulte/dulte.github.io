@@ -4,15 +4,10 @@ title: About
 permalink: /about/
 ---
 
-This is the base Jekyll theme. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at [jekyllrb.com](https://jekyllrb.com/)
+My name is Daniel. I'm a master student at the [Institute of Theoretical Astrophysics](https://www.mn.uio.no/astro/english/) at the University of Oslo, Norway.
 
-You can find the source code for Minima at GitHub:
-[jekyll][jekyll-organization] /
-[minima](https://github.com/jekyll/minima)
+My academic interests are astrophysic and cosmology, more spesific numerical relativity and gravitational waves. I'm currantly writing a thesis about the latter two subjects.
 
-You can find the source code for Jekyll at GitHub:
-[jekyll][jekyll-organization] /
-[jekyll](https://github.com/jekyll/jekyll)
+I love programming, and am quite sufficient in Python, C/C++, Fortran, etc (in that order of expertise). I also dabble in game and web development, as well as Capture the Flag. 
 
-
-[jekyll-organization]: https://github.com/jekyll
+I'm currently one of the team captains of *Oslo CTF* and *[UiO CTF](https://uioctf.no/)*. My favorite subject in CTFs are reverse engineering and crypto.
