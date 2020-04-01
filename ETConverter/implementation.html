@@ -1,0 +1,308 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Overview of the Implementation &mdash; Einstein Toolkit Converter  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="static/documentation_options.js"></script>
+        <script type="text/javascript" src="static/jquery.js"></script>
+        <script type="text/javascript" src="static/underscore.js"></script>
+        <script type="text/javascript" src="static/doctools.js"></script>
+        <script type="text/javascript" src="static/language_data.js"></script>
+    
+    <script type="text/javascript" src="static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="ETInterpolater" href="modules.html" />
+    <link rel="prev" title="Welcome to Einstein Toolkit Converter’s documentation!" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Einstein Toolkit Converter
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Overview of the Implementation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#lorene-and-the-spectral-transformation">LORENE and the Spectral Transformation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#first-version-in-python">First Version in Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#schematic-view-of-the-code">Schematic View of the Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#in-depth-of-the-python-code">In-depth of the Python Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#setup-of-the-c-code">Setup of the C Code</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">ETInterpolater</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Einstein Toolkit Converter</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Overview of the Implementation</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/implementation.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="overview-of-the-implementation">
+<h1>Overview of the Implementation<a class="headerlink" href="#overview-of-the-implementation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="lorene-and-the-spectral-transformation">
+<h2>LORENE and the Spectral Transformation<a class="headerlink" href="#lorene-and-the-spectral-transformation" title="Permalink to this headline">¶</a></h2>
+<p>One of the tedious tasks to have to implement is the actual spectral transformation. This involves a good deal of compactification of coordinates and fast Fourier transformations to get the spectral transformations. Since Einstein Toolkit gives the grid functions in Cartesian coordinates, while Gyoto uses spherical coordinates, a change of basis triads has to be done at some point.</p>
+<p>Thankfully LORENE has most of these capabilities build into it, in a way which is easy to use. LORENE is able to create spectral grids centered at a given position, then give collocation points needed to do the spectral transformation. Given the grid function values at these points, LORENE can, with only one command, transform into a spectral representation. It also lets the user change between different basis triads. LORENE also have the capability to do tensor algebra, and save these tensors in a way that Gyoto can read them. In other words, LORENE is able to handle all the tasks related to the spectral representation.</p>
+</div>
+<div class="section" id="first-version-in-python">
+<h2>First Version in Python<a class="headerlink" href="#first-version-in-python" title="Permalink to this headline">¶</a></h2>
+<p>As seen above LORENE can take care of everything that has to do with the spectral transformation, but we still need to take care of the reading of the Einstein Toolkit files, the interpolation and the post-processing. Even though I hoped to be able to integrate this functionality straight into an Einstein Toolkit thorn, I instead decided that it would be easier to implement the conversion tool in Python first. This was meant to be a proof of concept, and would later be moved into Einstein Toolkit (there running in C/C++ and/or FORTRAN).</p>
+<p>The first hurdle I needed to cross was the reading of the Einstein Toolkit data and its interpolation. Reading of HDF5 files in Python is not that difficult, but since Einstein Toolkit formats the data in its own way – to deal with time steps and the adaptive mesh grid –, this was not a trivial task. Thankfully I wasn’t the first person having to do this, meaning that there existed tools made for Python to handle this kind of data. The library I chose to use was called PostCactus/PyCactusET . This library can both read the Einstein Toolkit data and interpolate it, and was used to read the grid functions.</p>
+<p>The position and apparent horizons of the black holes were also needed for the spectral grid as well as the splitting function. This was handled directly by my own code, instead of going through any library.</p>
+<p>With the grid functions, the apparent horizon and the black hole positions handled, the next step was to make the Python script able to communicate with LORENE. This was done by simply calling a LORENE script as a subprocess using Python. When the Python program need the collocation points, the LORENE script was called and the out-stream of this script was caught by Python, where it was processed to reveal the points. The Python program then did all the interpolation of the grid functions on these collocation points, and the application of the splitting function. The results were then written to a file – with a curtain format –, and the LORENE script was again called, with the information that it now had to read the processed data and do the transformation.</p>
+<p>Having the processed data, LORENE could now do its magic. Making a scalar for the lapse function, a vector for the shift and a tensor for the spatial metric and the extrinsic curvature, the LORENE script could read the files and fill the components of these objects. Having these it could quickly do the spectral transformation and save the results as a file readable to Gyoto.</p>
+</div>
+<div class="section" id="schematic-view-of-the-code">
+<h2>Schematic View of the Code<a class="headerlink" href="#schematic-view-of-the-code" title="Permalink to this headline">¶</a></h2>
+<img alt="images/python_converter.png" class="align-center" src="images/python_converter.png" />
+</div>
+<div class="section" id="in-depth-of-the-python-code">
+<h2>In-depth of the Python Code<a class="headerlink" href="#in-depth-of-the-python-code" title="Permalink to this headline">¶</a></h2>
+<p>In the figure above one can see a schematic representation of the conversion code. The user only needs to take two steps to run the code first the user creates a geometry on which the Einstein Toolkit data will be read. This is a two or three dimensional, uniform grid. Einstein Toolkit will in many instances used symmetries in the simulated systems to reduce run time, meaning that in many cases only 1/6th if the simulated space is used – only positive values of x, y and z. Because of this, the user have the option to make a strictly positive geometry, with the reason being that the code will read the function values whether there exits a value there or not (with not existent values being set to 0). This will lead boundary noise in the areas between the points with simulated function values, and the ones set to 0 by default. By only having a geometry defined at the points were function values exist, we ensure that we don’t get this boundary noise. The geometry is made by simply calling
+.. code-block:: python</p>
+<blockquote>
+<div>inter = ETInterpolater(sim_folder, number_sim_bodies)
+g = inter.make_positive_geometry(corner, grid_points)</div></blockquote>
+<p>The user will then have to make a list over the iterations they want to look at. Then with a simple function call
+.. code-block:: python</p>
+<blockquote>
+<div>it = [0, 128,256] #etc
+inter.analyse_bbh(g, quantity=””, it, test=True)</div></blockquote>
+<p>the code will start its magic (test is there to make plots during the run, to see that everything works). The code will now start to run procedures described in the second column of the figure</p>
+<ol class="arabic">
+<li><p class="first">The code will read the position and radius of the black holes for Einstein Toolkit. The position will be used to calculate the splitting function.</p>
+</li>
+<li><p class="first">For each iteration given by the user, the code will loop though all the 3+1 quantities – the lapse function, and all the different indices of the shift vector, the spatial metric and the extrinsic curvature. The below is what will happen for each quantity at a given iteration.</p>
+</li>
+<li><p class="first">A function is called to read the Einstein Toolkit data. Depending on the geometry given by the user, either the xy-plane is read in, or the xyz-space. This function will return a interpolated function of the grid function, making it possible to get the function value at an arbitrary point inside the defined geometry.</p>
+</li>
+<li><p class="first">Now a call is made to get the collocation points needed to do the spectral transformation. A C code is called with the information about the origin of one of the black holes – so that the grid can be centered correctly. The C code has defined the different domain, and how many points it should use for each domain. Using this, and the origin given by the Python code, LORENE will calculate the spectral grid and print it to outstream. The Python function then captures the stream the C code makes, and reads and formats list of collocation points. The program now have the x, y and z coordinates of all the collocation points.</p>
+</li>
+<li><p class="first">The code will now begin to calculate the function value on the collocation points. This is done in the following steps</p>
+<blockquote>
+<div><ul class="simple">
+<li>The symmetries discussed above must be taken care of. For the most trivial case, with positive x, y and z-values, all negative coordinates are simply mirrored unto the positive side. For other symmetries, other measures are taken.</li>
+<li>Care are taken at the bounds. The collocation points may be outside of the simulated geometry, so points outside the geometry must be either given a value from inside the geometry or extrapolated.</li>
+<li>The function values are calculated for the desymmeterized and bounded values.</li>
+<li>The splitting function is applied to the function values.</li>
+</ul>
+<p>The end result is then return as a flat array, with a mapping back to the formatting used by the collocation points. The mapping is <code class="docutils literal notranslate"><span class="pre">d[l][k][j][i]</span> <span class="pre">=</span>&#160; <span class="pre">(\sum_{0</span> <span class="pre">&lt;=</span> <span class="pre">m</span> <span class="pre">&lt;</span> <span class="pre">l}</span> <span class="pre">n_r[m]*n_t[m]*n_p[m])</span> <span class="pre">+</span> <span class="pre">k*n_t[l]*n_r[l]</span> <span class="pre">+</span> <span class="pre">j*n_r[l]</span> <span class="pre">+</span> <span class="pre">i</span></code>, with <code class="docutils literal notranslate"><span class="pre">l</span></code> being the domain, <code class="docutils literal notranslate"><span class="pre">k</span></code> being the k’th <code class="docutils literal notranslate"><span class="pre">phi-value</span></code>, <code class="docutils literal notranslate"><span class="pre">j</span></code> being the j’th <code class="docutils literal notranslate"><span class="pre">theta-value</span></code> and <code class="docutils literal notranslate"><span class="pre">i</span></code> being the i’th <code class="docutils literal notranslate"><span class="pre">r-value</span></code>, and <code class="docutils literal notranslate"><span class="pre">n_r</span></code>, <code class="docutils literal notranslate"><span class="pre">n_t</span></code> and <code class="docutils literal notranslate"><span class="pre">n_p</span></code> being the arrays of points in the different domains. This array is written to file with a specific name.</p>
+</div></blockquote>
+</li>
+<li><p class="first">Points 4 and 5 are done for the second black hole (if there are two black holes).</p>
+</li>
+<li><p class="first">Points 3-6 are done for the next quantity, until all are processed.</p>
+</li>
+<li><p class="first">Having all the collocation points filled with function values for each 3+1 quantity, the C code is again called. This code will then</p>
+<blockquote>
+<div><ul class="simple">
+<li>The C code reads the files with the function values.</li>
+<li>All the 3+1 quantities are defined as tensorial objects, and their values are read from the read arrays.</li>
+<li>LORENE is then asked to make a spectral transformation on the quantities.</li>
+<li>Since Einstein Toolkit is in Cartesian coordinates, the 3+1 quantities are currently in Cartesian coordinates as well. Since Gyoto used spherical coordinates, the base triads of the quantities are changed to spherical coordinates.</li>
+<li>The quantities are then saved together with the map of the spectral grid to a file readable by Gyoto.</li>
+</ul>
+</div></blockquote>
+</li>
+</ol>
+<p>The program is now done, and Gyoto can be run.</p>
+</div>
+<div class="section" id="setup-of-the-c-code">
+<h2>Setup of the C Code<a class="headerlink" href="#setup-of-the-c-code" title="Permalink to this headline">¶</a></h2>
+<p>The C code needs to be set up before using. This means that the user will need to specify some variables needed to run</p>
+<div class="highlight-C notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="n">nz</span> <span class="o">=</span> <span class="mi">6</span> <span class="p">;</span>        <span class="c1">// Number of domains</span>
+<span class="kt">int</span> <span class="n">nr_array</span><span class="p">[]</span>  <span class="o">=</span> <span class="p">{</span><span class="mi">55</span><span class="p">,</span> <span class="mi">55</span><span class="p">,</span> <span class="mi">55</span><span class="p">,</span> <span class="mi">85</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">11</span><span class="p">};</span> <span class="c1">// Number of r points for each domain</span>
+<span class="kt">int</span> <span class="n">nt_array</span><span class="p">[]</span>  <span class="o">=</span> <span class="p">{</span><span class="mi">11</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">11</span><span class="p">};</span> <span class="c1">// Number of theta points for each domain</span>
+<span class="kt">int</span> <span class="n">np_array</span><span class="p">[]</span>  <span class="o">=</span> <span class="p">{</span><span class="mi">52</span><span class="p">,</span> <span class="mi">72</span><span class="p">,</span> <span class="mi">72</span><span class="p">,</span> <span class="mi">82</span><span class="p">,</span> <span class="mi">42</span><span class="p">,</span> <span class="mi">42</span><span class="p">};</span> <span class="c1">// Number of phi points for each domain</span>
+
+<span class="p">...</span>
+
+<span class="c1">// Type of coordsystem for each domain. Should always be RARE first, UNSURR last and FIN inbetween</span>
+<span class="kt">int</span> <span class="n">type_r</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span><span class="n">RARE</span><span class="p">,</span> <span class="n">FIN</span><span class="p">,</span> <span class="n">FIN</span><span class="p">,</span> <span class="n">FIN</span><span class="p">,</span> <span class="n">FIN</span><span class="p">,</span> <span class="n">UNSURR</span><span class="p">};</span>
+<span class="kt">int</span> <span class="n">symmetry_theta</span> <span class="o">=</span> <span class="n">SYM</span> <span class="p">;</span> <span class="c1">// symmetry with respect to the equatorial plane</span>
+<span class="kt">int</span> <span class="n">symmetry_phi</span> <span class="o">=</span> <span class="n">NONSYM</span> <span class="p">;</span> <span class="c1">// no symmetry in phi</span>
+<span class="kt">bool</span> <span class="n">compact</span> <span class="o">=</span> <span class="nb">true</span> <span class="p">;</span> <span class="c1">// external domain is compactified</span>
+
+<span class="p">...</span>
+
+<span class="c1">// radial boundaries of each domain:</span>
+<span class="kt">double</span> <span class="n">r_limits</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="n">__infinity</span><span class="p">}</span> <span class="p">;</span>
+</pre></div>
+</div>
+<p>The first set of variables is the number of domains and the number of collocation points with in each domain.</p>
+<p>The second set of variables are the type of coordinates in each domain. These should be set as descriped in the code.
+The other variables are the symmeteres and compactness of the coordinates. These should be left alone.</p>
+<p>The last variables is the radial boundaries of each domain. The first and second domain should cover the inner black hole,
+and the second should be in it own domain as well. There should be at least one domain between the out black hole and infinit, so that
+the gravitational waves are resolved here.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="modules.html" class="btn btn-neutral float-right" title="ETInterpolater" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to Einstein Toolkit Converter’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Daniel Heinesen
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
