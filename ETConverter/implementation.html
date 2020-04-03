@@ -84,10 +84,12 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Overview of the Implementation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#lorene-and-the-spectral-transformation">LORENE and the Spectral Transformation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#splitting-the-grids">Splitting the Grids</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#first-version-in-python">First Version in Python</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#schematic-view-of-the-code">Schematic View of the Code</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#in-depth-of-the-python-code">In-depth of the Python Code</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#setup-of-the-c-code">Setup of the C Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#results-of-the-code">Results of the Code</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">ETInterpolater</a></li>
@@ -161,6 +163,19 @@
 <h2>LORENE and the Spectral Transformation<a class="headerlink" href="#lorene-and-the-spectral-transformation" title="Permalink to this headline">¶</a></h2>
 <p>One of the tedious tasks to have to implement is the actual spectral transformation. This involves a good deal of compactification of coordinates and fast Fourier transformations to get the spectral transformations. Since Einstein Toolkit gives the grid functions in Cartesian coordinates, while Gyoto uses spherical coordinates, a change of basis triads has to be done at some point.</p>
 <p>Thankfully LORENE has most of these capabilities build into it, in a way which is easy to use. LORENE is able to create spectral grids centered at a given position, then give collocation points needed to do the spectral transformation. Given the grid function values at these points, LORENE can, with only one command, transform into a spectral representation. It also lets the user change between different basis triads. LORENE also have the capability to do tensor algebra, and save these tensors in a way that Gyoto can read them. In other words, LORENE is able to handle all the tasks related to the spectral representation.</p>
+</div>
+<div class="section" id="splitting-the-grids">
+<h2>Splitting the Grids<a class="headerlink" href="#splitting-the-grids" title="Permalink to this headline">¶</a></h2>
+<p>One of the challanges of using Gyoto (and LORENE) to do the raytracing is the fact that they are written with one spherical symmetric object in mind.
+By introducing a second object – i.e. the second black hole of the binary black hole system – we are breaking this symmetry.
+If we choose to have the center of the spectral grid at one of the black holes when doing the tranformation, we will have a good resolution of said black hole,
+but the second black hole and intermediate regions will in most cases have a worse resolution, leading to many atrifacts in the spacetime.</p>
+<p>To combat this problem, the so called splitting function is introduced. The actual function can be found in the method
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">ETConverter.ETInterpolater.split_function()</span></code>
+The way this work is that one spectral grid is constructed for and centered at each black hole. In this way we have one grid with one of the black hole resolved and the other not, and vice versa.
+We can now apply this splitting function to the grid. This will smoothly set the region around the unresolved object to zeros, making the noise disapprear and living the resolved parts untouch.
+We now have each object well resolved in one of the grids and removed from the other. We can now do the spectral transformation as described below.
+The result will be two grids on one well resolved objects each. We can then add the two grids together and will be left with one grid with both the objects well resolved.</p>
 </div>
 <div class="section" id="first-version-in-python">
 <h2>First Version in Python<a class="headerlink" href="#first-version-in-python" title="Permalink to this headline">¶</a></h2>
@@ -251,8 +266,15 @@ inter.analyse_bbh(g, quantity=””, it, test=True)</div></blockquote>
 <p>The second set of variables are the type of coordinates in each domain. These should be set as descriped in the code.
 The other variables are the symmeteres and compactness of the coordinates. These should be left alone.</p>
 <p>The last variables is the radial boundaries of each domain. The first and second domain should cover the inner black hole,
-and the second should be in it own domain as well. There should be at least one domain between the out black hole and infinit, so that
+and the second should be in it own domain as well. There should be at least one domain between the out black hole and infinite, so that
 the gravitational waves are resolved here.</p>
+</div>
+<div class="section" id="results-of-the-code">
+<h2>Results of the Code<a class="headerlink" href="#results-of-the-code" title="Permalink to this headline">¶</a></h2>
+<p>After running through the conversion program described above, we are left with two files per quantify per iteration readable by Gyoto.
+The reason we have two file is the splitting of the 3+1 quantity discussed above.
+When Gyoto calculates the geodesic of a photon, it will read the two files and use then to calculate the quantity
+<code class="docutils literal notranslate"><span class="pre">g(x)</span> <span class="pre">=</span> <span class="pre">g(x)_1</span> <span class="pre">+</span> <span class="pre">g(x)_2</span></code> where <code class="docutils literal notranslate"><span class="pre">g(x)_1</span></code> comes from the first file and <code class="docutils literal notranslate"><span class="pre">g(x)_2</span></code> from the second.</p>
 </div>
 </div>
 
