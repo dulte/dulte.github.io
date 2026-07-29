@@ -1,9 +1,12 @@
 :root {
     --bg: #000;
     --muted: #bfbfbf;
-    --purple: rgba(128, 0, 128, 0.20);
-    --purple-strong: rgba(128, 0, 128, 0.28);
-    --accent: #9b4dff;
+
+    /* Updated purple tones inspired by the logo */
+    --purple: rgba(58, 16, 110, 0.24);
+    --purple-strong: rgba(86, 28, 160, 0.34);
+    --accent: #6f3cff;
+    --accent-dark: #4b1fa8;
 }
 
 html,
@@ -30,16 +33,16 @@ body {
     width: 100%;
     max-width: 720px;
     background:
-        radial-gradient(1200px 400px at 50% 30%, var(--purple) 0%, rgba(0, 0, 0, 0.86) 35%),
-        linear-gradient(180deg, rgba(10, 10, 10, 0.98), rgba(6, 6, 6, 0.98));
+        radial-gradient(1200px 400px at 50% 30%, var(--purple) 0%, rgba(0, 0, 0, 0.88) 35%),
+        linear-gradient(180deg, rgba(12, 7, 20, 0.98), rgba(5, 4, 10, 0.98));
     border-radius: 44px;
-    padding: 36px;
+    padding: 24px 32px 28px;
     position: relative;
     color: #efefef;
     box-shadow:
         inset 0 30px 90px var(--purple-strong),
         0 8px 30px rgba(0, 0, 0, 0.6),
-        0 0 60px rgba(255, 255, 255, 0.03);
+        0 0 60px rgba(111, 60, 255, 0.08);
     border: 1px solid rgba(255, 255, 255, 0.09);
     outline: 1px solid rgba(255, 255, 255, 0.02);
     backdrop-filter: blur(4px);
@@ -64,12 +67,30 @@ body {
     background: rgba(255, 255, 255, 0.06);
 }
 
+.logo-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+    margin-top: 6px;
+}
+
+.logo {
+    max-width: 84px;
+    max-height: 84px;
+    width: auto;
+    height: auto;
+    display: block;
+    object-fit: contain;
+    border-radius: 12px;
+}
+
 .mode-row {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
-    margin-bottom: 20px;
+    gap: 8px;
+    margin-bottom: 16px;
 }
 
 .pill {
@@ -92,11 +113,11 @@ body {
     left: 0;
     top: 5px;
     bottom: 5px;
-    background: linear-gradient(180deg, var(--accent), #6f28ff);
+    background: linear-gradient(180deg, var(--accent), var(--accent-dark));
     border-radius: 999px;
     transition: transform .18s ease, width .18s ease;
     z-index: 1;
-    box-shadow: 0 6px 18px rgba(123, 58, 255, 0.12);
+    box-shadow: 0 6px 18px rgba(111, 60, 255, 0.22);
     pointer-events: none;
 }
 
@@ -121,7 +142,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 8px;
-    margin-bottom: 26px;
+    margin-bottom: 18px;
     align-items: center;
 }
 
@@ -153,7 +174,7 @@ body {
 .btn {
     padding: 10px 14px;
     border-radius: 8px;
-    background: rgba(128, 0, 128, 0.85);
+    background: linear-gradient(180deg, var(--accent), var(--accent-dark));
     border: 0;
     color: white;
     cursor: pointer;
@@ -166,13 +187,13 @@ body {
 }
 
 .btn.primary {
-    background: #5f00d6;
+    background: linear-gradient(180deg, #7b52ff, #5526c9);
 }
 
 .file-info {
     font-size: 13px;
     color: var(--muted);
-    margin-top: 6px;
+    margin-top: 4px;
     text-align: center;
     word-break: break-all;
 }
@@ -247,7 +268,7 @@ textarea {
 
 .progress-bar {
     height: 100%;
-    background: linear-gradient(90deg, #7b3cff, #3f8bff);
+    background: linear-gradient(90deg, #6f3cff, #8c63ff);
     width: 0%;
     transition: width .3s ease;
 }
@@ -267,10 +288,10 @@ textarea {
 .overlay-content {
     width: 100%;
     max-width: 720px;
-    background: linear-gradient(180deg, rgba(10, 10, 10, 0.98), rgba(6, 6, 6, 0.98));
+    background: linear-gradient(180deg, rgba(12, 7, 20, 0.98), rgba(5, 4, 10, 0.98));
     border-radius: 14px;
     padding: 20px 22px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), inset 0 4px 40px rgba(128, 0, 128, 0.06);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), inset 0 4px 40px rgba(111, 60, 255, 0.08);
     color: #f3f3f3;
     position: relative;
 }
@@ -309,7 +330,7 @@ textarea {
 
 @media (max-width:520px) {
     .panel {
-        padding: 20px;
+        padding: 18px;
         border-radius: 26px;
     }
 
@@ -329,5 +350,10 @@ textarea {
 
     .pill-btn {
         padding: 8px 10px;
+    }
+
+    .logo {
+        max-width: 68px;
+        max-height: 68px;
     }
 }

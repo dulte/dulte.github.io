@@ -5,6 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>MuleJS</title>
+    <link rel="icon" type="image/png" href="mulejs.png" />
     <link rel="stylesheet" href="styles.css">
 </head>
 
@@ -12,6 +13,10 @@
     <main class="app">
         <div class="panel" id="panel">
             <button id="aboutBtn" class="about-btn" aria-label="About">About</button>
+
+            <div class="logo-wrap">
+                <img src="mulejs.png" alt="MuleJS logo" class="logo">
+            </div>
 
             <div class="mode-row">
                 <div class="pill" role="tablist" aria-label="Send or Receive">
@@ -79,7 +84,12 @@
             <button id="aboutClose" class="overlay-close" aria-label="Close">&times;</button>
             <h2 id="aboutTitle">How this page works</h2>
             <div class="about-body">
-                <p>This page transfers files peer-to-peer using WebRTC data channels with copy/paste signaling.</p>
+                <p>This page transfers files peer-to-peer using WebRTC data channels with copy/paste signaling.
+
+                    Note: It is built using generative AI as a test project, due to more AI integration in my
+                    professional life. Feel free to judge me; no judgment will be worse than
+                    my own. This does also mean that I do not guarantee that the connection is secure; use at your own
+                    risk!!! </p>
                 <ul>
                     <li>Sender: choose a file, copy the generated SDP and share it with the receiver.</li>
                     <li>Receiver: paste the sender's SDP, copy the receiver's SDP back to the sender.</li>
@@ -89,6 +99,9 @@
                     <li>Persistent RSA keys are stored in your browser to simplify later transfers.</li>
                 </ul>
                 <p>The sender can pause, resume, or cancel while sending. ETA and progress are shown.</p>
+                <p>Note: This page does not use any server for signaling or file transfer. It only uses a public STUN
+                    server to establish the peer-to-peer connection. This means that if you are on a mobile network or
+                    behind certain NATs, MuleJS may not work (reliably).</p>
             </div>
         </div>
     </div>
