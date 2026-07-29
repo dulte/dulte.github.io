@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>MuleJS</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <main class="app">
+        <div class="panel" id="panel">
+            <button id="aboutBtn" class="about-btn" aria-label="About">About</button>
+
+            <div class="mode-row">
+                <div class="pill" role="tablist" aria-label="Send or Receive">
+                    <button class="pill-btn" data-mode="send" aria-pressed="true">Send</button>
+                    <button class="pill-btn" data-mode="receive" aria-pressed="false">Receive</button>
+                    <div class="pill-indicator" aria-hidden="true"></div>
+                </div>
+            </div>
+
+            <div id="senderControls" class="file-row">
+                <label class="file-label" for="fileName">File to send</label>
+                <div class="file-controls">
+                    <input id="fileName" class="file-name" type="text" placeholder="No file selected" readonly>
+                    <input id="fileInput" type="file" hidden>
+                    <button id="browseBtn" class="btn">Browse file</button>
+                </div>
+                <div id="fileInfo" class="file-info">Info about the file: size, name, type, hash</div>
+            </div>
+
+            <div id="localSdpWrap" class="sdp-section hidden">
+                <label class="sdp-label">SDP (with ICE candidates)</label>
+                <textarea id="localSdp" readonly placeholder="SDP will appear here"></textarea>
+                <div class="sdp-actions">
+                    <button id="copyLocalBtn" class="btn">Copy to Clipboard</button>
+                    <button id="regenBtn" class="btn">Regenerate</button>
+                </div>
+            </div>
+
+            <div id="pasteWrap" class="paste-area hidden">
+                <label class="sdp-label" id="pasteLabel">Paste remote SDP here</label>
+                <textarea id="remoteSdp" placeholder="Paste remote SDP"></textarea>
+                <div class="paste-actions">
+                    <button id="applyRemoteBtn" class="btn">Apply Remote SDP</button>
+                    <button id="sendFileBtn" class="btn primary hidden">Send</button>
+                </div>
+            </div>
+
+            <div id="transferControls" class="sdp-section hidden">
+                <div class="sdp-actions">
+                    <button id="pauseResumeBtn" class="btn">Pause</button>
+                    <button id="cancelBtn" class="btn">Cancel</button>
+                </div>
+                <div id="transferStatus" class="file-info">No transfer</div>
+            </div>
+
+            <div id="receiverResult" class="sdp-section hidden">
+                <label class="sdp-label">Your SDP (receiver)</label>
+                <textarea id="receiverSdp" readonly placeholder="Receiver SDP will appear here"></textarea>
+                <div class="sdp-actions">
+                    <button id="copyReceiverBtn" class="btn">Copy to Clipboard</button>
+                </div>
+                <div class="progress-wrap">
+                    <div class="progress-label">Transfer progress</div>
+                    <div class="progress">
+                        <div class="progress-bar" id="progressBar" style="width:0%"></div>
+                    </div>
+                    <div id="progressText" class="file-info">0 / 0 bytes (0%)</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="aboutOverlay" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="aboutTitle">
+        <div class="overlay-content">
+            <button id="aboutClose" class="overlay-close" aria-label="Close">&times;</button>
+            <h2 id="aboutTitle">How this page works</h2>
+            <div class="about-body">
+                <p>This page transfers files peer-to-peer using WebRTC data channels with copy/paste signaling.</p>
+                <ul>
+                    <li>Sender: choose a file, copy the generated SDP and share it with the receiver.</li>
+                    <li>Receiver: paste the sender's SDP, copy the receiver's SDP back to the sender.</li>
+                    <li>After the sender pastes the receiver answer, the transfer will start. The receiver will be
+                        prompted to download the received file.</li>
+                    <li>Transfers are encrypted (AES-GCM) and a SHA‑256 checksum is used to verify integrity.</li>
+                    <li>Persistent RSA keys are stored in your browser to simplify later transfers.</li>
+                </ul>
+                <p>The sender can pause, resume, or cancel while sending. ETA and progress are shown.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="utils.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

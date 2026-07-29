@@ -1,0 +1,333 @@
+:root {
+    --bg: #000;
+    --muted: #bfbfbf;
+    --purple: rgba(128, 0, 128, 0.20);
+    --purple-strong: rgba(128, 0, 128, 0.28);
+    --accent: #9b4dff;
+}
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+    background: var(--bg);
+    color: #fff;
+    font-family: Inter, "Segoe UI", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.app {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    box-sizing: border-box;
+}
+
+.panel {
+    width: 100%;
+    max-width: 720px;
+    background:
+        radial-gradient(1200px 400px at 50% 30%, var(--purple) 0%, rgba(0, 0, 0, 0.86) 35%),
+        linear-gradient(180deg, rgba(10, 10, 10, 0.98), rgba(6, 6, 6, 0.98));
+    border-radius: 44px;
+    padding: 36px;
+    position: relative;
+    color: #efefef;
+    box-shadow:
+        inset 0 30px 90px var(--purple-strong),
+        0 8px 30px rgba(0, 0, 0, 0.6),
+        0 0 60px rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    outline: 1px solid rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+.about-btn {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    background: rgba(255, 255, 255, 0.04);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 6px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    z-index: 40;
+}
+
+.about-btn:hover {
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.mode-row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.pill {
+    position: relative;
+    display: inline-flex;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 999px;
+    padding: 6px;
+    gap: 6px;
+    align-items: center;
+    box-sizing: border-box;
+    margin: 0 auto;
+    width: fit-content;
+    min-width: 180px;
+    justify-content: center;
+}
+
+.pill-indicator {
+    position: absolute;
+    left: 0;
+    top: 5px;
+    bottom: 5px;
+    background: linear-gradient(180deg, var(--accent), #6f28ff);
+    border-radius: 999px;
+    transition: transform .18s ease, width .18s ease;
+    z-index: 1;
+    box-shadow: 0 6px 18px rgba(123, 58, 255, 0.12);
+    pointer-events: none;
+}
+
+.pill-btn {
+    appearance: none;
+    border: 0;
+    background: transparent;
+    color: var(--muted);
+    padding: 8px 20px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-weight: 600;
+    z-index: 2;
+    transition: color .18s ease;
+}
+
+.pill-btn[aria-pressed="true"] {
+    color: white;
+}
+
+.file-row {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 26px;
+    align-items: center;
+}
+
+.file-label {
+    font-weight: 600;
+    color: #f3f3f3;
+}
+
+.file-controls {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    max-width: 560px;
+    align-items: center;
+    justify-content: center;
+}
+
+.file-name {
+    flex: 1 1 auto;
+    min-width: 140px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    background: #0e0e0e;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    color: #ddd;
+    box-sizing: border-box;
+}
+
+.btn {
+    padding: 10px 14px;
+    border-radius: 8px;
+    background: rgba(128, 0, 128, 0.85);
+    border: 0;
+    color: white;
+    cursor: pointer;
+    font-weight: 600;
+    transition: transform .08s ease;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+}
+
+.btn.primary {
+    background: #5f00d6;
+}
+
+.file-info {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 6px;
+    text-align: center;
+    word-break: break-all;
+}
+
+.sdp-section {
+    margin-top: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: stretch;
+}
+
+.sdp-label {
+    font-weight: 600;
+    color: #f0f0f0;
+}
+
+textarea {
+    width: 100%;
+    min-height: 120px;
+    resize: vertical;
+    padding: 12px;
+    border-radius: 10px;
+    background: #080808;
+    color: #eaeaea;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', monospace;
+    font-size: 13px;
+    box-sizing: border-box;
+}
+
+.sdp-actions,
+.paste-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+.paste-area {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+}
+
+.paste-area textarea {
+    min-height: 80px;
+}
+
+.progress-wrap {
+    margin-top: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.progress-label {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.progress {
+    width: 100%;
+    height: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.02);
+}
+
+.progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #7b3cff, #3f8bff);
+    width: 0%;
+    transition: width .3s ease;
+}
+
+.overlay {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 1000;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.overlay-content {
+    width: 100%;
+    max-width: 720px;
+    background: linear-gradient(180deg, rgba(10, 10, 10, 0.98), rgba(6, 6, 6, 0.98));
+    border-radius: 14px;
+    padding: 20px 22px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), inset 0 4px 40px rgba(128, 0, 128, 0.06);
+    color: #f3f3f3;
+    position: relative;
+}
+
+.overlay-close {
+    position: absolute;
+    right: 10px;
+    top: 8px;
+    background: transparent;
+    border: none;
+    color: #ddd;
+    font-size: 22px;
+    cursor: pointer;
+    padding: 6px;
+    line-height: 1;
+}
+
+.overlay-close:hover {
+    color: #fff;
+}
+
+.about-body {
+    font-size: 14px;
+    color: #dcdcdc;
+    line-height: 1.5;
+    margin-top: 8px;
+}
+
+.about-body ul {
+    margin: 8px 0 12px 18px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+@media (max-width:520px) {
+    .panel {
+        padding: 20px;
+        border-radius: 26px;
+    }
+
+    .pill {
+        min-width: 140px;
+    }
+
+    .file-controls {
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: center;
+    }
+
+    .btn {
+        width: 100%;
+    }
+
+    .pill-btn {
+        padding: 8px 10px;
+    }
+}
