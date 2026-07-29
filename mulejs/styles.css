@@ -73,13 +73,12 @@ body {
     align-items: center;
     margin-bottom: 10px;
     margin-top: 6px;
+    flex-shrink: 0;
 }
 
 .logo {
-    max-width: 84px;
-    max-height: 84px;
-    width: auto;
-    height: auto;
+    width: 84px;
+    height: 84px;
     display: block;
     object-fit: contain;
     border-radius: 12px;
