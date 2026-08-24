@@ -124,6 +124,12 @@ body {
     font-size: 15px;
 }
 
+.password-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
 .input-group input,
 .output-box {
     width: 100%;
@@ -138,6 +144,10 @@ body {
     transition: border-color .2s ease, box-shadow .2s ease, background-color .2s ease;
 }
 
+.password-input {
+    padding-right: 52px;
+}
+
 .input-group input::placeholder,
 .output-box::placeholder {
     color: var(--muted-2);
@@ -148,6 +158,52 @@ body {
     border-color: rgba(111, 60, 255, 0.8);
     box-shadow: 0 0 0 3px rgba(111, 60, 255, 0.18);
     background-color: #111;
+}
+
+.password-eye-btn {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 34px;
+    height: 34px;
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    transition: background-color .2s ease, color .2s ease;
+}
+
+.password-eye-btn:hover {
+    background: rgba(255, 255, 255, 0.06);
+    color: #fff;
+}
+
+.password-eye-btn.active {
+    color: #fff;
+}
+
+.eye-icon {
+    width: 18px;
+    height: 18px;
+    display: block;
+}
+
+.eye-closed {
+    display: none;
+}
+
+.password-eye-btn.active .eye-open {
+    display: none;
+}
+
+.password-eye-btn.active .eye-closed {
+    display: block;
 }
 
 .output-box {
@@ -241,6 +297,7 @@ body {
     font-weight: 600;
     font-size: 14px;
     transition: transform .08s ease, background-color .2s ease;
+    white-space: nowrap;
 }
 
 .secondary-btn:hover {

@@ -5,6 +5,7 @@ const statusText = document.getElementById('statusText');
 const outputBox = document.getElementById('generated-key');
 const copyBtn = document.getElementById('copyBtn');
 const clearBtn = document.getElementById('clearBtn');
+const visibilityButtons = document.querySelectorAll('.password-eye-btn');
 
 const aboutBtn = document.getElementById('aboutBtn');
 const aboutOverlay = document.getElementById('aboutOverlay');
@@ -31,6 +32,25 @@ togglePills.forEach((pill) => {
         this.classList.add('selected');
         this.setAttribute('aria-pressed', 'true');
         selectedKeyLength = parseInt(this.dataset.keyLength, 10);
+    });
+});
+
+visibilityButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+        const targetId = button.dataset.target;
+        const input = document.getElementById(targetId);
+
+        if (!input) return;
+
+        if (input.type === 'password') {
+            input.type = 'text';
+            button.classList.add('active');
+            button.setAttribute('aria-label', 'Hide password');
+        } else {
+            input.type = 'password';
+            button.classList.remove('active');
+            button.setAttribute('aria-label', 'Show password');
+        }
     });
 });
 
@@ -90,6 +110,7 @@ copyBtn.addEventListener('click', async () => {
 
     try {
         await navigator.clipboard.writeText(outputBox.value);
+        outputBox.value = '';
         setStatus('Key copied to clipboard.', 'success');
     } catch (err) {
         console.error('Copy failed:', err);
@@ -162,14 +183,10 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-/* ---------- Install UX ---------- */
-
-// Some platforms expose navigator.standalone or media query; use a simple check to hide install button if already installed
 function isRunningStandalone() {
     return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
 }
 
-// Handle beforeinstallprompt (Chrome/Edge)
 window.addEventListener('beforeinstallprompt', (event) => {
     event.preventDefault();
     deferredPrompt = event;
@@ -199,21 +216,18 @@ if (installBtn) {
     });
 }
 
-// Hide install button if already installed
 window.addEventListener('appinstalled', () => {
     setStatus('SaltBloc installed.', 'success');
     if (installBtn) installBtn.classList.add('hidden');
     deferredPrompt = null;
 });
 
-// On load, hide install button if already standalone
 window.addEventListener('load', () => {
-    if (installBtn) {
-        if (isRunningStandalone()) installBtn.classList.add('hidden');
+    if (installBtn && isRunningStandalone()) {
+        installBtn.classList.add('hidden');
     }
 });
 
-/* ---------- Service Worker ---------- */
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('./service-worker.js')
