@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SaltBloc</title>
+    <link rel="icon" type="image/png" href="mulejs.png" />
+    <link rel="manifest" href="manifest.json" />
+    <meta name="theme-color" content="#6f3cff" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="SaltBloc" />
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+    <main class="app">
+        <div class="panel">
+            <div class="top-actions">
+                <button id="installBtn" class="top-btn hidden" type="button">Install</button>
+                <button id="aboutBtn" class="top-btn" aria-label="About" type="button">About</button>
+            </div>
+
+            <section class="hasher-box">
+                <h1 class="title">SaltBloc</h1>
+                <p class="subtitle">Generate a deterministic secure key from your passwords.</p>
+
+                <form id="loginForm" class="hasher-form">
+                    <div class="input-group">
+                        <label for="secret-password">Secret Password</label>
+                        <input type="password" id="secret-password" placeholder="Enter your secret password" required />
+                    </div>
+
+                    <div class="input-group">
+                        <label for="site-password">Site Password</label>
+                        <input type="password" id="site-password" placeholder="Enter your site password" required />
+                    </div>
+
+                    <div class="pill-group-wrap">
+                        <div class="toggle-pill" role="tablist" aria-label="Key length">
+                            <button type="button" class="pill-option selected" data-key-length="128"
+                                aria-pressed="true">
+                                128-bit
+                            </button>
+                            <button type="button" class="pill-option" data-key-length="256" aria-pressed="false">
+                                256-bit
+                            </button>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="generate-btn" id="generateBtn">Generate</button>
+
+                    <div class="output-group">
+                        <label for="generated-key">Generated Key</label>
+                        <textarea id="generated-key" class="output-box"
+                            placeholder="Your generated key will appear here" readonly></textarea>
+                    </div>
+
+                    <div class="output-actions">
+                        <button type="button" class="secondary-btn" id="copyBtn">Copy</button>
+                        <button type="button" class="secondary-btn" id="clearBtn">Clear</button>
+                    </div>
+
+                    <div id="statusText" class="status-text"></div>
+                    <div class="clipboard-note">
+                        Copying the generated key may store it in your system clipboard history.
+                    </div>
+                </form>
+            </section>
+        </div>
+    </main>
+
+    <div id="aboutOverlay" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="aboutTitle">
+        <div class="overlay-content">
+            <button id="aboutClose" class="overlay-close" aria-label="Close">&times;</button>
+            <h2 id="aboutTitle">About SaltBloc</h2>
+            <div class="about-body">
+                <p>SaltBloc derives a deterministic secure key from:</p>
+                <ul>
+                    <li>a secret password</li>
+                    <li>a site-specific password</li>
+                    <li>a selected key size (128-bit or 256-bit)</li>
+                </ul>
+                <p>The generated key is shown on the page and can be copied manually.</p>
+                <p>PBKDF2 with SHA-256 is used to derive the key material.</p>
+                <p>This app can be installed as a PWA for a more app-like experience.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
