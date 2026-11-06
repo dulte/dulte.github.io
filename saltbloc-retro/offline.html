@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>SaltBloc — Offline</title>
+    <meta name="theme-color" content="#6f3cff">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <main class="app">
+        <div class="panel">
+            <div class="hasher-box">
+                <h1 class="title">SaltBloc</h1>
+                <p class="subtitle">You are offline.</p>
+
+                <section class="offline-box">
+                    <p class="offline-text">
+                        The app shell is available offline, but some resources may be unavailable until you reconnect.
+                    </p>
+                    <p class="offline-text">
+                        If you have already loaded the app once, the hasher should still work offline.
+                    </p>
+                    <button class="generate-btn" type="button" onclick="location.reload()">Try Again</button>
+                </section>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>
